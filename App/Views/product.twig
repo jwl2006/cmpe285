@@ -1,0 +1,31 @@
+{% extends "template.twig" %}
+{% block content %}
+		<table  id='sellerInventory' style='margin: auto;' class='pure-table pure-table-horizontal'>
+		    <thead>    
+		        <tr>
+		            <th>Product Name</td>
+		            <th>Price </td>
+		            <th>Image</td>
+		            <th>Company </td>
+		            <th>Seller</td>
+		            <th>Introduction </td>
+		            <th>Buy </td>
+		        </tr> 
+		    </thead>
+
+		    <tbody>
+		    	{% for product in products %}
+		    	<tr>
+                     <td>{{ product.name }}</td>
+                     <td>{{ product.price }}</td>
+                     <td>{{ product.image_link }}</td>
+                     <td>{{ product.company }}</td>
+                     <td>{{ product.seller }}</td>
+                     <td>{{ product.introduction }}</td>
+                    <!--  <td style='display:none;'>$productID</td>"; -->
+                     <td><button id='orderButton' class='pure-button pure-button-primary'>Order Now</button></td>
+                </tr>
+                {% endfor %}
+		    </tbody>
+		</table>
+{% endblock %}
