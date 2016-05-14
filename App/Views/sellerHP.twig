@@ -1,0 +1,36 @@
+{% extends "template.twig" %}
+
+{% block content %}
+
+	<table  class = 'pure-table pure-table-horizontal'>
+        <thead>    
+            <tr>
+                <th>Product Name</th>
+                <th>Price </th>
+                <th>Company</th>
+                <th>Seller</th>
+                <th>Image</th>
+                <th>Introduction </th>
+            </tr>
+        </thead>
+        {% for product in products %}
+        <tbody>
+        	
+        	<tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.company }}</td>
+                <td>{{ product.seller }}</td>
+                <td>{{ product.image_link }}</td>
+                <td>{{ product.introduction }}</td>
+            </tr>
+            
+        </tbody>
+        {% endfor %}
+	</table>
+
+	<a href='/diamondslim/app/postproduct'><button class='pure-button pure-button-primary'>Post Product</button></a>
+	<br><br><br><br>
+	<a href='/diamondslim/app/logout'><button class='pure-button pure-button-primary'>Log Out</button></a>
+
+ {% endblock %}

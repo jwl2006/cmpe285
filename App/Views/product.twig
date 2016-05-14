@@ -1,31 +1,148 @@
 {% extends "template.twig" %}
 {% block content %}
-		<table  id='sellerInventory' style='margin: auto;' class='pure-table pure-table-horizontal'>
-		    <thead>    
-		        <tr>
-		            <th>Product Name</td>
-		            <th>Price </td>
-		            <th>Image</td>
-		            <th>Company </td>
-		            <th>Seller</td>
-		            <th>Introduction </td>
-		            <th>Buy </td>
-		        </tr> 
-		    </thead>
 
-		    <tbody>
-		    	{% for product in products %}
-		    	<tr>
-                     <td>{{ product.name }}</td>
-                     <td>{{ product.price }}</td>
-                     <td>{{ product.image_link }}</td>
-                     <td>{{ product.company }}</td>
-                     <td>{{ product.seller }}</td>
-                     <td>{{ product.introduction }}</td>
-                    <!--  <td style='display:none;'>$productID</td>"; -->
-                     <td><button id='orderButton' class='pure-button pure-button-primary'>Order Now</button></td>
-                </tr>
+<div id="selectmenu">
+    <form action = "" method = 'post' width = '200px'>
+        Please select a vendor:
+            <select id = 'category' >
+                <option value = '0'>----</option>
+                <option value = '1' >Nutrition</option>
+                <option value = '2' >Motors</option>
+                <option value = '3' >Life Style</option>
+                <option value = '4' >Car</option>
+            </select>
+    </form>
+</div>
+	<div id="products">
+            <ul> 
+            {% for product in products %}
+                    <li id="productlist">
+                        <div class='product-image'>
+                            <img src= "{{ baseUrl() ~ product.image_link }}" alt=""/>
+                        </div>
+                        <div class="product-description" >
+	                            <h3 class="product-name">{{ product.name }}</h3>
+	                            <p class="product-price">${{ product.price }} </p>
+	                            <table style="visibility:hidden" >
+	                            	<tr>
+	                     				<td>{{ product.id }}</td>
+                                  		<td>{{ product.name }}</td>
+                                  		<td>{{ product.price }}</td>
+                                  		<td>{{ product.company }}</td>
+                                  		<td>{{ product.seller }}</td>
+	                     			<tr>
+	                            </table> 
+	                        	<form class="add-to-cart" action="/diamondslim/app/cart" method="post">
+	                                <div>
+	                                    <label for="qty-1">Quantity</label>
+	                                    <input type="text" name="qty-1" id="qty-1" class="qty" value="1" />
+	                                </div>
+	                                    <p><input type="submit" value="Add to cart" class="btn" /></p>
+	                            </form>
+                        </div>  
+                    </li>
                 {% endfor %}
-		    </tbody>
-		</table>
+           </ul>  
+	</div> 
 {% endblock %}
+
+
+{% block javascripts %}
+   $(document).ready(function() {
+
+        $('#category').change(function () {
+            $("#productlist").hide();
+            $("#products").empty();
+
+            var category = $("#category").val();
+            var data;
+            if (category == '1') {
+            	  data = [{"id":"1","name":"protein","price":"20","image_link":"/Resources/images/nutrition/p1.jpg","company":"FAKE","seller":"hello@yahoo.com","introduction":"Healthy protein powder"},{"id":"2","name":"Vitamine","price":"15","image_link":"/Resources/images/nutrition/p2.jpg","company":"FAKE","seller":"wawa@gmail.com","introduction":"vitamine up"}];
+                  displayRetrievedData(data);
+            } else if (category == '2') {
+                  data = [{"id":"3","name":"highspeed","price":"120","image_link":"/Resources/images/bike/b1.jpg","company":"FAKEBIKE","seller":"sjsu@yahoo.com","introduction":"Fast Bike"},{"id":"5","name":"Surpass","price":"150","image_link":"/Resources/images/bike/b2.jpg","company":"FAKEBIKE","seller":"lily@gmail.com","introduction":"BIKE ON TOP"}];
+                  displayRetrievedData(data);
+            } else if (category == '3') {
+                console.log("in category 3");
+                var $url = "http://balkrrishna.com/getProducts.php";
+                
+                $.ajax({
+                    type: "GET",
+                    url: $url,
+                    dataType: "json",
+                    success: function (response) {
+                        displayRetrievedData(response);
+                    },
+                    error: function (e) {
+                        alert('Error: ' + e);
+                    }
+                });
+            } else if (category == '4') {
+            <!--     data = [{"id":"10","name":"BMW","price":"120000","image_link":"/Resources/images/car/c1.jpg","company":"FAKECAR","seller":"cmpe285@yahoo.com","introduction":"For celebrities"},{"id":"20","name":"Benz","price":"15000000","image_link":"/Resources/images/car/c2.jpg","company":"FAKECAR","seller":"liash@gmail.com","introduction":"Fancy fancy"}]; -->
+            var $url = "http://walterwhitewaltwhitman.com/navdeep/285/get_products.php";
+            $.ajax({
+                    type: "GET",
+                    url: $url,
+                    dataType: "json",
+                    success: function (response) {
+                        displayRetrievedData(response);
+                    },
+                    error: function (e) {
+                        alert('Error: ' + e);
+                    }
+                });
+                displayRetrievedData(data);
+            }
+        
+    })       
+})
+
+function displayRetrievedData(data) { 
+            console.log("in display data");
+            var valdata = JSON.stringify(data);
+            console.log("stringify");
+
+            console.log(valdata);
+           
+
+            var objData = JSON.parse(valdata);
+            console.log("after parsing");
+            console.log(objData);
+
+                    
+            $.each(objData, function (index, item) {
+                        console.log("product name: ");
+                        console.log(item.name);
+                        var eachrow =
+                                "<li>"
+                                + "<div class='product-image'>"
+                                +       '<img src="' + '{{ baseUrl() ~ item.image_link }}' + item.image_link + ' "/>'
+                                + "</div>"
+                                + "<div class='product-description' >"
+                                +       "<h3 class='product-name'>" + item.name + "</h3>"
+                                +       "<p class='product-price'>$" + item.price + "</p>"
+                                +       '<table style="visibility:hidden" >'
+                                +           '<tr>'
+                                +               '<td>' + item.id + '</td>'
+                                +               '<td>' + item.name + '</td>'
+                                +               '<td>' + item.price + '</td>'
+                                +               '<td>' + item.company + '</td>'
+                                +               '<td>' + item.seller + '</td>'
+                                +           '</tr>'
+                                +       '</table>' 
+                                +       '<form class="add-to-cart" action="/diamondslim/app/cart" method="post">'
+                                +           "<div>"
+                                +               "<label for='qty-1'>Quantity</label>"
+                                +               "<input type='text' name='qty-1' id='qty-1' class='qty' value='1' />"
+                                +           "</div>"
+                                +           '<p><input type="submit" value="Add to cart" class="btn" /></p>'
+                                +       "</form>"
+                                + "</div>"
+                                + "</li>";
+                        console.log(eachrow);
+                        $("#products").append(eachrow);
+                    }); 
+            } 
+
+    {% endblock %}
+

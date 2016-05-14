@@ -1,0 +1,38 @@
+{% extends "template.twig" %}
+{% block content %}
+
+<?php
+    session_start();
+?>
+     <h3>Upload new products</h3>
+         <form action='/diamondslim/app/addproduct' method='post'  class='pure-form pure-form-stacked'>
+            <fieldset>
+              <div class='pure-control-group'>  
+		              <label  for='productname'>Product Name*</label>
+		              <input type='text' name='productname'required>
+              </div>
+              <div class='pure-control-group'> 
+                  <label for='price'>Price</label>
+		              <input type='text' name='price' required>
+              </div>
+          
+                <div class='pure-control-group'> 
+                  <label for='imagelink'>Image</label>
+                  <input type='text' name='imagelink' placeholder='' required>
+                </div>  
+                 <div class='pure-control-group'> 
+                  <label for='company'>Company</label>
+                  <input type='text' name='company' placeholder='' required>
+                </div>  
+                <div class='pure-control-group' style="visibility:hidden"> 
+                  <label for='seller'>Seller</label>
+                  <input type='text' name='seller' value="' . $_SESSION['user'] . '" required>
+                </div>  
+
+                <label for='introduction'>Introduction: </label>
+                    <textarea name='introduction' id='introduction'> Less than 50 words please.</textarea>
+                
+                <button type='submit' class='pure-button pure-button-primary'>Add Product</button>
+            </fieldset>
+         </form>
+{% endblock %}

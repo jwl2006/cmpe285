@@ -1,0 +1,40 @@
+   
+{% extends "template.twig" %}
+{% block content %}
+    <div>
+        <p> {{ msg }}</p>
+    </div>
+
+    <form action='/diamondslim/app/userregister' method='post'  class='pure-form pure-form-stacked'>
+		<label  for='user'>Create Username*</label>
+		      <input type='text' name='user' placeholder='yourname@email.com' required>
+        <label for='password'>Create Password*</label>
+		      <input type='password' name='password' placeholder='length > 6 characters' required>
+        <label for='confirmpasswd'>Confirm Password*</label>
+		      <input type='password' name='confirmpasswd' placeholder='' required>
+                
+        <div class='userInfo'>
+            <p> Profile Information</p>
+        </div>
+        <lable for='identity'>Select your identity</lable>
+            <select name='identity'>
+                <option value=''>--</option>
+                <option value='seller'>Seller</option>
+                <option value='buyer'>Buyer</option>     
+            </select>
+                            
+        <label  for='firstname'>First Name*: </label>
+		      <input type='text' name='firstname' placeholder='eg: Lilly' required>
+        <label for='lastname'>Last Name*: </label>
+		      <input type='text' name='lastname' placeholder='eg: Lewis' required>
+        <label for='address'>Address: </label>
+		      <input type='text' name='address' placeholder='' >
+        <label for='homephone'>Home Phone: </label>
+		      <input type='text' name='homephone' placeholder='' >
+        <label for='cellphone'>Cell Phone*: </label>
+		      <input type='text' name='cellphone' placeholder='' required >
+                
+        <button type='submit' class='pure-button pure-button-primary'>Sign Up</button>
+    </form>
+
+{% endblock %}

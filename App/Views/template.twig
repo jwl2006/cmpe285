@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -8,9 +8,11 @@ and open the template in the editor.
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><?php echo $title; ?></title>
+        <link rel="stylesheet" media="screen" type="text/css" href="Resources/css/cart.css" />
         <link rel="stylesheet" type="text/css" href="Resources/css/stylesheet.css"/>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+      <!--   <script type="text/javascript" src="Resources/js/app.js"></script> -->
     </head> 
     <body>
         <div id="wrapper">
@@ -19,64 +21,129 @@ and open the template in the editor.
             </div>
             <nav id="navigation">
                 <ul id="nav">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="Diamond.php">Diamond</a></li>
-                    <li><a href="showAllUsers.php">Sellers</a></li>
-                    <li><a href="News.php">News</a></li>
-                    <li><a href="userlogin.php">Account</a></li>
+                    <li><a href="/diamondslim/app">Home</a></li>
+                    <li><a href="/diamondslim/app/showproducts">Diamond</a></li>
+                    <li><a href="/diamondslim/app/displaycart">Cart</a></li>
+                    <li><a href="/diamondslim/app/news">News</a></li>
+                    <li><a href="/diamondslim/app/account">Account</a></li>
                 </ul>
             </nav>
-            <div>
-                <?php if(isset($caption)) echo $caption; ?>
-            </div>
+          
             <div id="content_area">
                 {% block content %}
                 {% endblock %}
             </div>
             
             <div id="sidebar">
-                <?php if(isset($sidePicture)) echo $sidePicture;?>
+                {% block sidebar %}
+                {% endblock %}
             </div>
-            
-        
-            
-            
+               
             <footer>
                 <p>All rights reserved</p>
             </footer>
         </div>
     </body>
+   
     <script>
-        $(document).ready(function(){
-            $(document).on("click", "#orderButton", function(){
+    {% block javascripts %}
+    {% endblock %}
+      $(document).ready(function(){
+
+        $(document).on("click", ".add-to-cart", function(){
             console.log("clicked");
-            var $row = $(this).parents(':eq(1)');
-            console.log($row);
+            createCart();
+        
+            var $form = $(this);
+    
+            var $parent = $form.parent();
+            var $row = $parent.find("tr");
+
+           
+            // console.log("###" + $row.text());
+
+           
+
             $tds = $row.find("td");
+
             var data = [];
             $.each($tds, function() {
                 data.push($(this).text());
             })
-           var $productid = data[6];
-           var $seller = data[4];
-           var param = '?productid='+$productid+'&seller='+$seller;
-           var uri = "/buyTransaction.php"+ param;
-           console.log(uri);
-           $.ajax({
-               type: "POST",
-               url: 'buyTransaction.php',
-               data:{'productid': $productid, 'seller': $seller},
-               success: function(response) {
-                  document.open();
-                  document.write(response);
-                  document.close();
-                  window.location.replace("Buyer.php");
-               }
-               
-           });
-            
+           
+
+            var $productid = data[0];
+           
+            var $name = data[1]; 
+            var $price = data[2];         
+            var $company = data[3];
+            var $seller = data[4];
+            var $date = new Date();
+            $date.setUTCHours(15);
+
+            var $qty = parseInt($form.find("#qty-1").val());
+            var $buyer = "";
+            var subTotal = $price * $qty;
+
+            console.log("subTotal:" + subTotal);
+
+            var pastTotal = _convertString(sessionStorage.getItem("SpringTotal"));
+            var total = subTotal + pastTotal;
+
+            sessionStorage.setItem("SpringTotal", total);
+            _addToCart({
+                product: $name,
+                productid: $productid,
+                price: $price,
+                qty: $qty,
+                time: $date,
+                buyer: $buyer,
+                seller: $seller,
+                vendor: $company
+            });
+
         })
-    })
-        
+
+      function _addToCart( values ) {
+            var cart = sessionStorage.getItem("SpringCart");
+            var cartObject = JSON.parse( cart );
+            var cartCopy = cartObject;
+            var items = cartCopy.items;
+            items.push( values );
+
+            sessionStorage.setItem("SpringCart", JSON.stringify( cartCopy ) );
+         
+      }
+
+      function _convertString( numStr ) {
+            console.log("past total price fetched: " + numStr);
+            var num;
+            if( /^[-+]?[0-9]+\.[0-9]+$/.test( numStr ) ) {
+                num = parseFloat( numStr );
+            } else if( /^\d+$/.test( numStr ) ) {
+                num = parseInt( numStr, 10 );
+            } else {
+                num = Number( numStr );
+            }
+
+            if( !isNaN( num ) ) {
+                return num;
+            } else {
+                console.warn( numStr + " cannot be converted into a number" );
+                return false;
+            }
+        }
+    function createCart() {
+        //    console.log("in create cart");
+            if (sessionStorage.getItem("SpringCart") == null) {
+                var cart = {};
+                cart.items = [];
+                sessionStorage.setItem("SpringCart",JSON.stringify(cart));
+                sessionStorage.setItem("SpringTotal", "0");
+            }
+        }
+
+
+})        
     </script>
 </html>

@@ -1,0 +1,23 @@
+{% extends "template.twig" %}
+
+{% block content %}
+    <div>
+        <p> {{ msg }}</p>
+    </div>
+
+  <form action='/diamondslim/app/login' method='post' class='pure-form pure-form-stacked'>
+		  <label  for='user'>User Name</label>
+		      <input type='text' name='user' placeholder='yourname@email.com' required>
+      <label for='password'>Password</label>
+		      <input type='password' name='password' placeholder='password' required>
+      <button type='submit' class='pure-button pure-button-primary'>Sign in</button>
+
+      <div class = 'footer'>
+          Don’t have an account?
+            <span class='signup-today'>
+                <a href='/diamondslim/app/signup' class='track-event'>Sign Up</a>
+            </span>
+      </div>
+  </form>
+
+  {% endblock %}

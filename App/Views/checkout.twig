@@ -1,0 +1,121 @@
+{% extends "template.twig" %}
+{% block content %}
+
+<div id="content">
+        <h1>Checkout</h1>
+        <table id="checkout-cart" class="shopping-cart">
+            <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div id="pricing">
+            <p id="sub-total">
+                <strong>Total</strong>: <span id="stotal"></span>
+            </p>
+        </div>
+</div>
+   <p><input type="submit" id="submit-order" value="Submit" class="btn" /></p>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+$(document).ready(function() {
+    $(function(){
+        displayCheckoutCart();
+    });
+
+    function displayCheckoutCart() {
+        $checkoutElement = $("#checkout-cart");
+        var $cartBody = $checkoutElement.find("tbody");
+        if (sessionStorage.getItem("SpringCart") == null) {
+            $cartBody.html("");
+            $("#stotal")[0].innerHTML = "$" + 0.00;
+            return;
+        }
+        var checkoutCart = JSON.parse(sessionStorage.getItem("SpringCart"));
+        var cartItems = checkoutCart.items;
+
+        if (cartItems.length > 0 ) {
+            for (var j = 0; j < cartItems.length; ++j) {
+                var cartItem = cartItems[j];
+                var cartProduct = cartItem.product;
+                var cartPrice = "$" + cartItem.price;
+                var cartQty = cartItem.qty;
+                var row = "<tr><td class='pname'>" + cartProduct + "</td>" + "<td class='pqty'>" + cartQty + "</td>" + "<td class='pprice'>" + cartPrice + "</td></tr>";
+                $cartBody.append(row);
+            }
+            var cartTotal = sessionStorage.getItem("SpringTotal");
+            $("#stotal")[0].innerHTML = "$" + cartTotal;
+        } else {
+            $cartBody.html("");
+            $("#stotal")[0].innerHTML = "$" + 0.00;
+        }
+    }
+
+  $("#submit-order").on("click", function(e) {
+            e.preventDefault();
+            console.log("in submit order");
+            submitOrder();  
+  });
+
+    function _emptyCart() {
+        sessionStorage.clear();
+    }
+
+  function submitOrder() {
+            console.log("in the function!");
+            var cart = JSON.parse(sessionStorage.getItem("SpringCart"));
+            var items = cart.items;
+
+            if (items.length == 0) {
+                alert("Cart Empty, Please shop before order");
+            } else {
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+
+                    var productid = item.productid;
+                    var seller = item.seller;
+                    var buyer = item.buyer;
+                    var vendor = item.vendor;
+                    var time = item.time;
+                    var quantity = item.qty;
+                    
+                    var cartObj = {
+                        productid: productid,
+                        seller: seller,
+                        buyer: buyer,
+                        vendor: vendor,
+                        time: time,
+                        quantity: quantity
+                    }
+
+                    var cart = JSON.stringify(cartObj);
+
+                      $.ajax({
+                        type: "POST",
+                        url: "http://walterwhitewaltwhitman.com/navdeep/285/post_transaction.php",
+                        data: cart,
+                        success: function (response) {
+                            console.log("success");
+                             _emptyCart();
+                             window.location.replace("/diamondslim/app/showproducts");
+                        }
+
+                    });
+                   
+                }   
+        }
+    }
+
+    })
+
+{% endblock %}
