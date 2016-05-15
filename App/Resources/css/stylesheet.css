@@ -32,12 +32,18 @@ body p
 #content_area
 {
     float: left;
+    left: 10%;
     width: 750px;
-    margin: 20px 0 20px 0;
+    
     padding: 10px;
+    margin: 0 auto;
 }
 
-
+#productbody
+{
+    width: 850px;
+   margin: 0 auto;
+}
 
 #sidebar
 {

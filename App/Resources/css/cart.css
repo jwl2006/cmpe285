@@ -15,7 +15,9 @@
 }
 
 
-
+#selectmenu {
+	padding-left: 3.5em;
+}
 .tagline {
 	float: right;
 	color: #666;
@@ -43,20 +45,25 @@
 	width: 200px;
 	height: 200px;
 	overflow: hidden;
-	border-radius: 50%;
-	border-color: #0000ff;
 }
 
 .product-description {
-	padding: 1em;
+/*	padding: 1em;
 	background: #A9A9A9;
 	color: #fff;
-	border-radius: 5px;
+	border-radius: 5px;*/
+	padding: 1em;
+    background: #FBFBFB;
+    color: #666;
+    border-radius: 5px;
 }
 
 .product-name {
+	font:  'Arizonia', Helvetica, sans-serif;
+ 
+  	text-shadow: 4px 4px 0px rgba(0,0,0,0.1); 
 	text-align: center;
-	color: #000000;;
+	color: #2b2b2b;
 	margin: 0;
 	font-size: 1.4em;
 	padding-bottom: 0.2em;
@@ -65,16 +72,28 @@
 	letter-spacing: 0.1em;
 }
 
+.menu-name {
+	font:  'Arizonia', Helvetica, sans-serif;
+ 
+  	text-shadow: 4px 4px 0px rgba(0,0,0,0.1); 
+	text-align: left;
+	color: #2b2b2b;
+	margin: 0;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
 .product-price {
 	width: 4em;
-	height: 4em;
-	font-size: 1.2em;
-	text-align: center;
-	margin: 1em auto;
-	background: #fff;
-	color: #800;
-	line-height: 4;
-	border-radius: 50%;
+    height: 4em;
+    font-size: 1.1em;
+    text-align: center;
+    margin: 1em auto;
+    background: #EDECEF;
+    color: #E02573;
+    line-height: 4;
+    border-radius: 50%;
 }
 
 form.add-to-cart div,
@@ -93,14 +112,23 @@ form input.qty {
 }
 
 .btn, a.btn {
-	display: inline-block;
+	/*display: inline-block;
 	background: #cc1400;
 	color: #fff;
 	font: 1em 'PT Serif', serif;
 	padding: 0.3em 1em;
 	text-align: center;
 	border-radius: 4px;
-	border: 1px solid #a00;
+	border: 1px solid #a00;*/
+
+	display: inline-block;
+    background: #333;
+    color: #fff;
+    font: 1em 'PT Serif', serif;
+    padding: 0.3em 1em;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #060606;
 }
 
 

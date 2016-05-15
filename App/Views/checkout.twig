@@ -21,7 +21,7 @@
             </p>
         </div>
 </div>
-   <p><input type="submit" id="submit-order" value="Submit" class="btn" /></p>
+   <p><input type="submit" id="submit-order" value="Place Order" style="float:right;" class="btn" /></p>
 
 {% endblock %}
 
@@ -100,21 +100,38 @@ $(document).ready(function() {
 
                     var cart = JSON.stringify(cartObj);
 
-                      $.ajax({
+                    if (vendor == "Jeunesse") {
+                        var myurl = "http://www.walterwhitewaltwhitman.com/jerryzheng/post_transaction.php";
+                        _orderFullfill(myurl, cart);
+                    } else if (vendor == "Valve") {
+                        var myurl = "http://walterwhitewaltwhitman.com/navdeep/285/post_transaction.php";
+                        _orderFullfill(myurl, cart);
+                    } else if (vendor == "LittleSchoolHome") {
+                         var myurl = "http://balkrrishna.com/postTransactions.php";
+                        _orderFullfill(myurl, cart);
+                    } else if (vendor == "IDG") {
+                         var myurl = "/diamondslim/app/addtransaction";
+                         _orderFullfill(myurl, cart);
+                    }
+                   
+                }  
+                    _emptyCart();
+                    window.location.replace("/diamondslim/app/showproducts"); 
+        }
+    }
+
+   function _orderFullfill(myurl, mydata) {
+                $.ajax({
                         type: "POST",
-                        url: "http://walterwhitewaltwhitman.com/navdeep/285/post_transaction.php",
-                        data: cart,
+                        url: myurl,
+                        data: mydata,
                         success: function (response) {
                             console.log("success");
-                             _emptyCart();
-                             window.location.replace("/diamondslim/app/showproducts");
+                             
                         }
 
                     });
-                   
-                }   
-        }
-    }
+   }
 
     })
 

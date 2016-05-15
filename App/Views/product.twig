@@ -1,19 +1,48 @@
-{% extends "template.twig" %}
-{% block content %}
 
-<div id="selectmenu">
-    <form action = "" method = 'post' width = '200px'>
-        Please select a vendor:
-            <select id = 'category' >
-                <option value = '0'>----</option>
-                <option value = '1' >Nutrition</option>
-                <option value = '2' >Motors</option>
-                <option value = '3' >Life Style</option>
-                <option value = '4' >Car</option>
-            </select>
-    </form>
-</div>
-	<div id="products">
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title><?php echo $title; ?></title>
+        <link rel="stylesheet" media="screen" type="text/css" href="Resources/css/cart.css" />
+        <link rel="stylesheet" type="text/css" href="Resources/css/stylesheet.css"/>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="Resources/js/app.js"></script> 
+       
+        <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
+    </head> 
+    <body>
+        <div id="wrapper">
+            <div id="banner">
+                
+            </div>
+            <nav id="navigation">
+                <ul id="nav">
+                    <li><a href="/diamondslim/app">Home</a></li>
+                    <li><a href="/diamondslim/app/showproducts">Diamond</a></li>
+                    <li><a href="/diamondslim/app/displaycart">Cart</a></li>
+                    <li><a href="/diamondslim/app/news">News</a></li>
+                    <li><a href="/diamondslim/app/account">Account</a></li>
+                </ul>
+            </nav>
+     <div id="productbody"> 
+            <div id="selectmenu">
+                <h3 class="menu-name">Product</h3>
+                <form action = "" method = 'post' width = '200px'>
+                    <select id = 'category' >
+                        <option value = '0'>----</option>
+                        <option value = '1' >KinderGarden</option>
+                        <option value = '2' >Cosmetics</option>
+                        <option value = '3' >Game</option>
+                    </select>
+                </form>
+            </div>
+        <div id="products">
             <ul> 
             {% for product in products %}
                     <li id="productlist">
@@ -21,48 +50,142 @@
                             <img src= "{{ baseUrl() ~ product.image_link }}" alt=""/>
                         </div>
                         <div class="product-description" >
-	                            <h3 class="product-name">{{ product.name }}</h3>
-	                            <p class="product-price">${{ product.price }} </p>
-	                            <table style="visibility:hidden" >
-	                            	<tr>
-	                     				<td>{{ product.id }}</td>
-                                  		<td>{{ product.name }}</td>
-                                  		<td>{{ product.price }}</td>
-                                  		<td>{{ product.company }}</td>
-                                  		<td>{{ product.seller }}</td>
-	                     			<tr>
-	                            </table> 
-	                        	<form class="add-to-cart" action="/diamondslim/app/cart" method="post">
-	                                <div>
-	                                    <label for="qty-1">Quantity</label>
-	                                    <input type="text" name="qty-1" id="qty-1" class="qty" value="1" />
-	                                </div>
-	                                    <p><input type="submit" value="Add to cart" class="btn" /></p>
-	                            </form>
+                                <h3 class="product-name">{{ product.name }}</h3>
+                                <p class="product-price">${{ product.price }} </p>
+                                <table style="visibility:hidden" >
+                                    <tr>
+                                        <td>{{ product.id }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.price }}</td>
+                                        <td>{{ product.company }}</td>
+                                        <td>{{ product.seller }}</td>
+                                    <tr>
+                                </table> 
+                                <form class="add-to-cart" action="/diamondslim/app/cart" method="post">
+                                    <div>
+                                        <label for="qty-1">Quantity</label>
+                                        <input type="text" name="qty-1" id="qty-1" class="qty" value="1" />
+                                    </div>
+                                        <p><input type="submit" value="Add to cart" class="btn" /></p>
+                                </form>
                         </div>  
                     </li>
                 {% endfor %}
            </ul>  
-	</div> 
-{% endblock %}
+    </div> 
+</div>
 
-
+          <footer>
+                <p>All rights reserved</p>
+            </footer>
+        
+    </body>
+<script>
 {% block javascripts %}
    $(document).ready(function() {
+         $(document).on("click", ".add-to-cart", function(){
+            console.log("clicked");
+            createCart();
+        
+            var $form = $(this);
+    
+            var $parent = $form.parent();
+            var $row = $parent.find("tr");
+           
+            // console.log("###" + $row.text());
+           
+            $tds = $row.find("td");
+            var data = [];
+            $.each($tds, function() {
+                data.push($(this).text());
+            })
+           
+            var $productid = data[0];
+           
+            var $name = data[1]; 
+            var $price = data[2];         
+            var $company = data[3];
+            var $seller = data[4];
+            var $date = new Date();
+            $date.setUTCHours(15);
+            var $qty = parseInt($form.find("#qty-1").val());
+            var $buyer = "";
+            var subTotal = $price * $qty;
+            console.log("subTotal:" + subTotal);
+            var pastTotal = _convertString(sessionStorage.getItem("SpringTotal"));
+            var total = subTotal + pastTotal;
+            sessionStorage.setItem("SpringTotal", total);
+            _addToCart({
+                product: $name,
+                productid: $productid,
+                price: $price,
+                qty: $qty,
+                time: $date,
+                buyer: $buyer,
+                seller: $seller,
+                vendor: $company
+            });
+        })
+      function _addToCart( values ) {
+            var cart = sessionStorage.getItem("SpringCart");
+            var cartObject = JSON.parse( cart );
+            var cartCopy = cartObject;
+            var items = cartCopy.items;
+            items.push( values );
+            sessionStorage.setItem("SpringCart", JSON.stringify( cartCopy ) );
+         
+      }
+      function _convertString( numStr ) {
+            console.log("past total price fetched: " + numStr);
+            var num;
+            if( /^[-+]?[0-9]+\.[0-9]+$/.test( numStr ) ) {
+                num = parseFloat( numStr );
+            } else if( /^\d+$/.test( numStr ) ) {
+                num = parseInt( numStr, 10 );
+            } else {
+                num = Number( numStr );
+            }
+            if( !isNaN( num ) ) {
+                return num;
+            } else {
+                console.warn( numStr + " cannot be converted into a number" );
+                return false;
+            }
+        }
+    function createCart() {
+        //    console.log("in create cart");
+            if (sessionStorage.getItem("SpringCart") == null) {
+                var cart = {};
+                cart.items = [];
+                sessionStorage.setItem("SpringCart",JSON.stringify(cart));
+                sessionStorage.setItem("SpringTotal", "0");
+            }
+        }
 
-        $('#category').change(function () {
+    $('#category').change(function () {
             $("#productlist").hide();
             $("#products").empty();
 
             var category = $("#category").val();
             var data;
-            if (category == '1') {
-            	  data = [{"id":"1","name":"protein","price":"20","image_link":"/Resources/images/nutrition/p1.jpg","company":"FAKE","seller":"hello@yahoo.com","introduction":"Healthy protein powder"},{"id":"2","name":"Vitamine","price":"15","image_link":"/Resources/images/nutrition/p2.jpg","company":"FAKE","seller":"wawa@gmail.com","introduction":"vitamine up"}];
-                  displayRetrievedData(data);
-            } else if (category == '2') {
+            if (category == '2') {
+                var $url = "http://www.walterwhitewaltwhitman.com/jerryzheng/get_product.php";
+                $.ajax({
+                    type: "GET",
+                    url: $url,
+                    dataType: "json",
+                    success: function (response) {
+                        displayRetrievedData(response);
+                    },
+                    error: function (e) {
+                        alert('Error: ' + e);
+                    }
+                });
+            }
+            else if (category == '2') {
                   data = [{"id":"3","name":"highspeed","price":"120","image_link":"/Resources/images/bike/b1.jpg","company":"FAKEBIKE","seller":"sjsu@yahoo.com","introduction":"Fast Bike"},{"id":"5","name":"Surpass","price":"150","image_link":"/Resources/images/bike/b2.jpg","company":"FAKEBIKE","seller":"lily@gmail.com","introduction":"BIKE ON TOP"}];
                   displayRetrievedData(data);
-            } else if (category == '3') {
+            } else if (category == '1') {
                 console.log("in category 3");
                 var $url = "http://balkrrishna.com/getProducts.php";
                 
@@ -77,8 +200,8 @@
                         alert('Error: ' + e);
                     }
                 });
-            } else if (category == '4') {
-            <!--     data = [{"id":"10","name":"BMW","price":"120000","image_link":"/Resources/images/car/c1.jpg","company":"FAKECAR","seller":"cmpe285@yahoo.com","introduction":"For celebrities"},{"id":"20","name":"Benz","price":"15000000","image_link":"/Resources/images/car/c2.jpg","company":"FAKECAR","seller":"liash@gmail.com","introduction":"Fancy fancy"}]; -->
+            } else if (category == '3') {
+           
             var $url = "http://walterwhitewaltwhitman.com/navdeep/285/get_products.php";
             $.ajax({
                     type: "GET",
@@ -95,9 +218,9 @@
             }
         
     })       
-})
 
-function displayRetrievedData(data) { 
+
+    function displayRetrievedData(data) { 
             console.log("in display data");
             var valdata = JSON.stringify(data);
             console.log("stringify");
@@ -142,7 +265,9 @@ function displayRetrievedData(data) {
                         console.log(eachrow);
                         $("#products").append(eachrow);
                     }); 
-            } 
-
+    }
+}) 
     {% endblock %}
+</script>
+  </html>
 

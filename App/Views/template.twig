@@ -11,8 +11,10 @@ and open the template in the editor.
         <link rel="stylesheet" media="screen" type="text/css" href="Resources/css/cart.css" />
         <link rel="stylesheet" type="text/css" href="Resources/css/stylesheet.css"/>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-      <!--   <script type="text/javascript" src="Resources/js/app.js"></script> -->
+         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="Resources/js/app.js"></script> 
+       
+        <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
     </head> 
     <body>
         <div id="wrapper">
@@ -33,6 +35,8 @@ and open the template in the editor.
                 {% block content %}
                 {% endblock %}
             </div>
+
+        
             
             <div id="sidebar">
                 {% block sidebar %}
@@ -46,10 +50,9 @@ and open the template in the editor.
     </body>
    
     <script>
-    {% block javascripts %}
+   {% block javascripts %}
     {% endblock %}
       $(document).ready(function(){
-
         $(document).on("click", ".add-to-cart", function(){
             console.log("clicked");
             createCart();
@@ -58,20 +61,15 @@ and open the template in the editor.
     
             var $parent = $form.parent();
             var $row = $parent.find("tr");
-
            
             // console.log("###" + $row.text());
-
            
-
             $tds = $row.find("td");
-
             var data = [];
             $.each($tds, function() {
                 data.push($(this).text());
             })
            
-
             var $productid = data[0];
            
             var $name = data[1]; 
@@ -80,16 +78,12 @@ and open the template in the editor.
             var $seller = data[4];
             var $date = new Date();
             $date.setUTCHours(15);
-
             var $qty = parseInt($form.find("#qty-1").val());
             var $buyer = "";
             var subTotal = $price * $qty;
-
             console.log("subTotal:" + subTotal);
-
             var pastTotal = _convertString(sessionStorage.getItem("SpringTotal"));
             var total = subTotal + pastTotal;
-
             sessionStorage.setItem("SpringTotal", total);
             _addToCart({
                 product: $name,
@@ -101,20 +95,16 @@ and open the template in the editor.
                 seller: $seller,
                 vendor: $company
             });
-
         })
-
       function _addToCart( values ) {
             var cart = sessionStorage.getItem("SpringCart");
             var cartObject = JSON.parse( cart );
             var cartCopy = cartObject;
             var items = cartCopy.items;
             items.push( values );
-
             sessionStorage.setItem("SpringCart", JSON.stringify( cartCopy ) );
          
       }
-
       function _convertString( numStr ) {
             console.log("past total price fetched: " + numStr);
             var num;
@@ -125,7 +115,6 @@ and open the template in the editor.
             } else {
                 num = Number( numStr );
             }
-
             if( !isNaN( num ) ) {
                 return num;
             } else {
@@ -142,8 +131,7 @@ and open the template in the editor.
                 sessionStorage.setItem("SpringTotal", "0");
             }
         }
-
-
 })        
+ 
     </script>
 </html>
