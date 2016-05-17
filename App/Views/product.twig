@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
   <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><?php echo $title; ?></title>
+        <title>Diamond</title>
         <link rel="stylesheet" media="screen" type="text/css" href="Resources/css/cart.css" />
         <link rel="stylesheet" type="text/css" href="Resources/css/stylesheet.css"/>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
@@ -36,7 +36,7 @@ and open the template in the editor.
                 <form action = "" method = 'post' width = '200px'>
                     <select id = 'category' >
                         <option value = '0'>----</option>
-                        <option value = '1' >KinderGarden</option>
+                        <option value = '1' >Sport Car</option>
                         <option value = '2' >Cosmetics</option>
                         <option value = '3' >Game</option>
                     </select>
@@ -107,7 +107,7 @@ and open the template in the editor.
             var $company = data[3];
             var $seller = data[4];
             var $date = new Date();
-            $date.setUTCHours(15);
+            $date.setUTCHours(23);
             var $qty = parseInt($form.find("#qty-1").val());
             var $buyer = "";
             var subTotal = $price * $qty;
@@ -187,7 +187,7 @@ and open the template in the editor.
                   displayRetrievedData(data);
             } else if (category == '1') {
                 console.log("in category 3");
-                var $url = "http://balkrrishna.com/getProducts.php";
+                var $url = "http://balkrrishna.com/getProducts.php?secret=cmpe285";
                 
                 $.ajax({
                     type: "GET",
@@ -229,10 +229,9 @@ and open the template in the editor.
            
 
             var objData = JSON.parse(valdata);
-            console.log("after parsing");
-            console.log(objData);
+            
 
-                    
+                
             $.each(objData, function (index, item) {
                         console.log("product name: ");
                         console.log(item.name);

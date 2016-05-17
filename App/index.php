@@ -20,6 +20,7 @@ $app->get('/getproducts', 'getAllProducts');
 $app->get('/getproductbyid/:id', 'getProductById');
 $app->post('/addproductjson',  'addProductJSON');
 $app->get('/showproducts', 'showProducts');
+$app->get('/showtransactions', 'showTransactions');
 
 
 $app->post('/addproduct',  'addProduct');
@@ -65,7 +66,9 @@ $app->get('/checkout', function() use($app) {
 	 $app->render('checkout.twig'); 
 });
 
-
+$app->get('/greeting', function() use($app) {
+	 $app->render('greeting.twig'); 
+});
 
 $app->get('/change', function () {
 

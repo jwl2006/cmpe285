@@ -5,7 +5,7 @@
    
     <div id="content">
         <h1>Your Shopping Cart</h1>
-        <form id="shopping-cart" action="/diamondslim/app/cart" method="post">
+        <form id="shopping-cart" action="" method="post">
             <table class="shopping-cart">
                 <thead>
                 <tr>
@@ -35,7 +35,7 @@
                     <a href="/diamondslim/app/showproducts" class="btn">Continue Shopping</a>
                 </li>
                 <li>
-                    <a href="/diamondslim/app/checkout" id="submit-order" class="btn">Go To Checkout</a>
+                    <a href="/diamondslim/app/checkout" id="" class="btn">Go To Checkout</a>
                 </li>
             </ul>
         </form>
@@ -131,7 +131,7 @@
                 var pprice = _convertString(_extractPrice($row.find(".pprice")));
                 var pvendor = $.trim($row.find(".pvendor").text());
                 var pseller = $.trim($row.find(".pseller").text());
-                var ptime = new Date(); ptime.setUTCHours(15);
+                var ptime = new Date(); ptime.setUTCHours(23);
                 var productid = $.trim($row.find(".pproductid").text());
                 var cartObj = {
                     product: pname,

@@ -258,6 +258,12 @@ function showProducts() {
 	$app->render('product.twig', array('products'=> $products)); 
 }
 
+function showTransactions() {
+	$app = \Slim\Slim::getInstance();
+	$orders = R::find('transaction');
+	$app->render('alltransactions.twig', array('orders'=> $orders)); 
+}
+
 function getProductById($id) {
 	$app = \Slim\Slim::getInstance();
 	try {

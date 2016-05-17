@@ -1,0 +1,32 @@
+{% extends "template.twig" %}
+{% block content %}
+
+<h2 style="text-align: center;"> Your Order History </h2>
+<table id='sellerInventory' class = 'pure-table pure-table-horizontal'  >
+        <thead>    
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity </th>
+                <th>Time</th>
+                <th>Seller</th>
+                <th>Buyer </th>
+                <th>Vendor</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        	{% for order in orders %}
+        	<tr>
+                <td>{{ order.productid }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.time }}</td>
+                <td>{{ order.seller }}</td>
+                <td>{{ order.buyer }}</td>
+                <td>{{ order.vendor }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+
+
+{% endblock %}

@@ -1,11 +1,77 @@
-{% extends "template.twig" %}
-{% block content %}
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Diamond</title>
+        <link rel="stylesheet" media="screen" type="text/css" href="Resources/css/cart.css" />
+        <link rel="stylesheet" type="text/css" href="Resources/css/stylesheet.css"/>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="Resources/js/app.js"></script> 
+       
+        <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
+        <style>
+            .firework {
+    background-image:url("Resources/images/fireworks.gif");
+    background-size:cover;
+    width:100%;
+    height: 500px;
+    color:white;
+}
+
+    .congrats {
+    font:  'Arizonia', Helvetica, sans-serif;
+    text-shadow: 4px 4px 0px rgba(0,0,0,0.1); 
+    text-align: center;
+    color: white;
+    margin: 0;
+    font-size: 1.4em;
+    padding-bottom: 0.2em;
+    border-bottom: 1px dotted #666;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    }
+    </style>
+    </head> 
+    <body>
+        <div id="wrapper">
+            <div id="banner">
+                
+            </div>
+            <nav id="navigation">
+                <ul id="nav">
+                    <li><a href="/diamondslim/app">Home</a></li>
+                    <li><a href="/diamondslim/app/showproducts">Diamond</a></li>
+                    <li><a href="/diamondslim/app/displaycart">Cart</a></li>
+                    <li><a href="/diamondslim/app/news">News</a></li>
+                    <li><a href="/diamondslim/app/account">Account</a></li>
+                </ul>
+            </nav>
+          
+            <div class="firework">
+           	
+		
+				<h3 stype="margin top:500px" class='congrats'> Congratulations!</h3>
+				<h3 stype="margin top:500px"class='congrats'> Order Completed!</h3>
+			 	<div>
+
+			 	</div>
+		    	<a href="/diamondslim/app/showproducts" style="float:right;" class="btn">Continue Shopping</a>
+		
+            </div>
+
+        
+            
+          
+               
+            <footer>
+                <p>All rights reserved</p>
+            </footer>
+        </div>
+    </body>
+
+</html>
 
 
+          
 
 
-
-
-
-
-{% endblock %}

@@ -6,7 +6,26 @@
 
 /*= Demo */
 
+.firework {
+	background-image:url("../images/fireworks.gif");
+	background-size:cover;
+	width:100%;
+	height: 500px;
+	color:white;
+}
 
+.congrats {
+	font:  'Arizonia', Helvetica, sans-serif;
+  	text-shadow: 4px 4px 0px rgba(0,0,0,0.1); 
+	text-align: center;
+	color: white;
+	margin: 0;
+	font-size: 1.4em;
+	padding-bottom: 0.2em;
+	border-bottom: 1px dotted #666;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
 
 #site {
 	max-width: 960px;
@@ -181,6 +200,10 @@ body#checkout-page #site-info {
 
 .shopping-cart td.pdelete {
 	text-align: center;
+}
+
+.shopping-cart td.pqty {
+	width : 10%;	
 }
 
 .pdelete a,

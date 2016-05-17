@@ -76,29 +76,37 @@ $(document).ready(function() {
             var cart = JSON.parse(sessionStorage.getItem("SpringCart"));
             var items = cart.items;
 
+
             if (items.length == 0) {
                 alert("Cart Empty, Please shop before order");
             } else {
                 for (var i = 0; i < items.length; i++) {
+
                     var item = items[i];
 
                     var productid = item.productid;
                     var seller = item.seller;
-                    var buyer = item.buyer;
+                    var buyer = "cmpe285@sjsu.edu";
                     var vendor = item.vendor;
                     var time = item.time;
                     var quantity = item.qty;
                     
+                    console.log("productid:");
+                    
+
                     var cartObj = {
                         productid: productid,
                         seller: seller,
                         buyer: buyer,
-                        vendor: vendor,
+                        vendor: "IDG",
                         time: time,
                         quantity: quantity
                     }
 
+                    console.log(cartObj.productid);
+
                     var cart = JSON.stringify(cartObj);
+                  
 
                     if (vendor == "Jeunesse") {
                         var myurl = "http://www.walterwhitewaltwhitman.com/jerryzheng/post_transaction.php";
@@ -116,7 +124,7 @@ $(document).ready(function() {
                    
                 }  
                     _emptyCart();
-                    window.location.replace("/diamondslim/app/showproducts"); 
+                    window.location.replace("/diamondslim/app/greeting"); 
         }
     }
 
